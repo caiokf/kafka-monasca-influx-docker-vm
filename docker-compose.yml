@@ -20,7 +20,14 @@ kafka:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
-monasca:
+monasca1:
+  build: ./monasca
+  links:
+    - kafka:kf
+    - influxdb:influx
+    - zookeeper:zk
+
+monasca2:
   build: ./monasca
   links:
     - kafka:kf
