@@ -28,7 +28,7 @@ monasca1:
     - zookeeper:zk
 
 monasca2:
-  build: ./monasca
+  build: ./monasca-diff-consumer
   links:
     - kafka:kf
     - influxdb:influx
