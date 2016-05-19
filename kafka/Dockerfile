@@ -1,6 +1,6 @@
 FROM anapsix/alpine-java
 
-MAINTAINER Wurstmeister 
+MAINTAINER Wurstmeister
 
 RUN apk add --update unzip wget curl docker jq coreutils
 
