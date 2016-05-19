@@ -1,0 +1,35 @@
+influxdb:
+  image: tutum/influxdb
+  environment:
+    PRE_CREATE_DB: "mon"
+
+zookeeper:
+  image: wurstmeister/zookeeper
+  ports:
+    - "2181:2181"
+
+kafka:
+  build: ./kafka
+  ports:
+    - "9092:9092"
+  links:
+    - zookeeper:zk
+  environment:
+    KAFKA_ADVERTISED_HOST_NAME: 172.17.0.4:9092
+    KAFKA_CREATE_TOPICS: "test:1:1,alarm-state-transitions:1:1"
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+monasca1:
+  build: ./monasca
+  links:
+    - kafka:kf
+    - influxdb:influx
+    - zookeeper:zk
+
+monasca2:
+  build: ./monasca
+  links:
+    - kafka:kf
+    - influxdb:influx
+    - zookeeper:zk
